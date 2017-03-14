@@ -73,7 +73,9 @@ class tx_wtgallery_single extends tslib_pibase {
 		if (!empty($this->conf[$this->mode . '.']['width'])) $this->conf[$this->mode . '.']['image.']['file.']['width'] = $this->conf[$this->mode . '.']['width'];  // set width from config (e.g. flexform if not empty)
 		if (!empty($this->conf[$this->mode . '.']['height'])) $this->conf[$this->mode . '.']['image.']['file.']['height'] = $this->conf[$this->mode . '.']['height'];  // set width from config (e.g. flexform if not empty)
 		foreach ($this->conf[$this->mode . '.'] as $key => $value) { // one loop for every main level in typoscript (single.image, single.text, single.listviewlink, etc...)
-			$this->markerArray['###' . strtoupper($key) . '###'] = $this->cObj->cObjGetSingle($this->conf[$this->mode . '.'][$key], $this->conf[$this->mode.'.'][$key . '.']); // values from ts
+			if(!preg_match('/\.$/', $key)) {
+				$this->markerArray['###' . strtoupper($key) . '###'] = $this->cObj->cObjGetSingle($this->conf[$this->mode . '.'][$key], $this->conf[$this->mode.'.'][$key . '.']); // values from ts
+			}
 		}
 		if ($this->conf[$this->mode . '.']['pid_single'] == $this->conf['list.']['pid_list']) { // if listview and singleview in the same page
 			unset($this->markerArray['###LISTVIEWLINK###']); // clear listview_link

@@ -78,7 +78,9 @@ class tx_wtgallery_list extends tslib_pibase {
 				if (!empty($this->conf[$this->mode . '.']['height'])) $this->conf[$this->mode . '.']['image.']['file.']['height'] = $this->conf[$this->mode . '.']['height'];  // set height from config (e.g. flexform if not empty)
 				foreach ($this->conf[$this->mode . '.'] as $key => $value) { // one loop for every main level in typoscript (single.image, single.text, single.listviewlink, etc...)
 					if ($key != 'pagebrowser') { // don't use pagebrowser here but everything else
-						$this->markerArray['###' . strtoupper($key) . '###'] = $this->cObj->cObjGetSingle($this->conf[$this->mode . '.'][$key], $this->conf[$this->mode.'.'][$key . '.']); // values from ts
+						if(!preg_match('/\.$/', $key)) {
+							$this->markerArray['###' . strtoupper($key) . '###'] = $this->cObj->cObjGetSingle($this->conf[$this->mode . '.'][$key], $this->conf[$this->mode.'.'][$key . '.']); // values from ts
+						}
 					}
 				}
 				foreach ($row as $key => $value) { // one loop for every row entry
