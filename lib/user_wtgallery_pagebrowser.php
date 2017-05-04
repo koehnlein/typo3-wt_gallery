@@ -22,7 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_div.php'); // load div class
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_gallery') . 'lib/class.tx_wtgallery_div.php'); // load div class
 
 
 /**
@@ -33,7 +33,7 @@ require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_div.p
  * @subpackage	wt_gallery
  * @function This Class offeres different pagebrowser methods
  */
-class user_wtgallery_pagebrowser extends tslib_pibase {
+class user_wtgallery_pagebrowser extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	
 	var $prefixId = 'tx_wtgallery_pi1'; // Plugin name
 	var $scriptRelPath = 'pi1/class.tx_wtgallery_list.php';	// Path to any file in pi1 for locallang
@@ -54,7 +54,7 @@ class user_wtgallery_pagebrowser extends tslib_pibase {
 		$cObj = $TSFE->cObj; // cObject
 		$this->conf = $conf; // conf
 		$this->pi_loadLL();
-		$this->div = t3lib_div::makeInstance('tx_wtgallery_div'); // Create new instance for div class
+		$this->div = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtgallery_div'); // Create new instance for div class
 		$menuarray = array(); // init array for menu
 		$conf['userFunc.']['pointer'] = 0; // start pointer with 0 (will be increased in every loop)
 		$mode = (!empty($this->conf['userFunc.']['mode']) ? $this->conf['userFunc.']['mode'] : 'list'); // set mode (could be "category" or "list")
@@ -86,7 +86,7 @@ class user_wtgallery_pagebrowser extends tslib_pibase {
 		$cObj = $TSFE->cObj; // cObject
 		$this->conf = $conf; // conf
 		$this->pi_loadLL();
-		$this->div = t3lib_div::makeInstance('tx_wtgallery_div'); // Create new instance for div class
+		$this->div = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtgallery_div'); // Create new instance for div class
 		$menuarray = $pic = array(); $force = 0;
 		$mode = (!empty($this->conf['userFunc.']['mode']) ? $this->conf['userFunc.']['mode'] : 'list'); // set mode
 		$no = array(

@@ -22,10 +22,10 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('wt_gallery').'lib/class.tx_wtgallery_div.php'); // load div class
-require_once(t3lib_extMgm::extPath('wt_gallery').'lib/class.tx_wtgallery_dynamicmarkers.php'); // file for dynamicmarker functions
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_gallery').'lib/class.tx_wtgallery_div.php'); // load div class
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_gallery').'lib/class.tx_wtgallery_dynamicmarkers.php'); // file for dynamicmarker functions
 
-class tx_wtgallery_category_pagebrowser extends tslib_pibase {
+class tx_wtgallery_category_pagebrowser extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	
 	var $prefixId = 'tx_wtgallery_pi1';		// Same as class name
 	var $scriptRelPath = 'pi1/class.tx_wtgallery_pi1.php';	// Path to any file in pi1 for locallang
@@ -38,8 +38,8 @@ class tx_wtgallery_category_pagebrowser extends tslib_pibase {
 		$this->cObj = $cObj;
 		$this->pbarray = $pbarray;
 		$this->pi_loadLL();
-		$this->div = t3lib_div::makeInstance('tx_wtgallery_div'); // Create new instance for div class
-		$this->dynamicMarkers = t3lib_div::makeInstance('tx_wtgallery_dynamicmarkers'); // Create new instance for dynamicmarker function
+		$this->div = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtgallery_div'); // Create new instance for div class
+		$this->dynamicMarkers = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtgallery_dynamicmarkers'); // Create new instance for dynamicmarker function
 		$this->tmpl = $this->markerArray = $this->wrappedSubpartArray = array(); // init
 		$this->tmpl['category_browser'] = $this->cObj->getSubpart($this->cObj->fileResource($this->conf['template.']['category']), '###WTGALLERY_CATEGORY_PAGEBROWSER###'); // Load HTML Template
 		

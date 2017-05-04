@@ -22,10 +22,10 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('wt_gallery').'lib/class.tx_wtgallery_div.php'); // load div class
-require_once(t3lib_extMgm::extPath('wt_gallery').'lib/class.tx_wtgallery_dynamicmarkers.php'); // file for dynamicmarker functions
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_gallery').'lib/class.tx_wtgallery_div.php'); // load div class
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_gallery').'lib/class.tx_wtgallery_dynamicmarkers.php'); // file for dynamicmarker functions
 
-class tx_wtgallery_coolirisrss extends tslib_pibase {
+class tx_wtgallery_coolirisrss extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	
 	var $prefixId = 'tx_wtgallery_pi1';		// Same as class name
 	var $scriptRelPath = 'pi1/class.tx_wtgallery_pi1.php';	// Path to any file in pi1 for locallang
@@ -38,8 +38,8 @@ class tx_wtgallery_coolirisrss extends tslib_pibase {
 		$this->piVars = $piVars;
 		$this->cObj = $cObj;
 		$this->pi_loadLL();
-		$this->div = t3lib_div::makeInstance('tx_wtgallery_div'); // Create new instance for div class
-		$this->dynamicMarkers = t3lib_div::makeInstance('tx_wtgallery_dynamicmarkers'); // Create new instance for dynamicmarker function
+		$this->div = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtgallery_div'); // Create new instance for div class
+		$this->dynamicMarkers = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtgallery_dynamicmarkers'); // Create new instance for dynamicmarker function
 		$this->tmpl = $this->markerArray = $this->outerMarkerArray = $subpartArray = array(); $content_item = ''; // init
 		$this->tmpl[$this->mode]['all'] = trim($this->cObj->getSubpart($this->cObj->fileResource($this->conf['template.'][$this->mode]), '###WTGALLERY_COOLIRIS_RSS###')); // Load HTML Template
 		$this->tmpl[$this->mode]['item'] = $this->cObj->getSubpart($this->tmpl[$this->mode]['all'],'###ITEM###'); // work on subpart 2
@@ -60,7 +60,7 @@ class tx_wtgallery_coolirisrss extends tslib_pibase {
 						'basename' => $this->div->fileInfo($pictures[$i], 'basename'), // like pic.jpg
 						'extension' => $this->div->fileInfo($pictures[$i], 'extension'), // like jpg
 						'currentfolder' => $this->div->fileInfo($pictures[$i], 'currentfolder'), // like folder
-						'picturehash' => t3lib_div::md5int($pictures[$i]), // like 12345678
+						'picturehash' => \TYPO3\CMS\Core\Utility\GeneralUtility::md5int($pictures[$i]), // like 12345678
 					);
 					$metarow = $this->div->EXIForTXT($row['picture'], $this->conf[$this->mode . '.']['metainformation']); // get metainformation
 					$row = array_merge((array) $row, (array) $metarow); // add array from txt or exif to normal row

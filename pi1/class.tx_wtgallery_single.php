@@ -22,10 +22,10 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_div.php'); // load div class
-require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_dynamicmarkers.php'); // file for dynamicmarker functions
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_gallery') . 'lib/class.tx_wtgallery_div.php'); // load div class
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_gallery') . 'lib/class.tx_wtgallery_dynamicmarkers.php'); // file for dynamicmarker functions
 
-class tx_wtgallery_single extends tslib_pibase {
+class tx_wtgallery_single extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	
 	var $prefixId = 'tx_wtgallery_pi1';		// Same as class name
 	var $scriptRelPath = 'pi1/class.tx_wtgallery_single.php';	// Path to any file in pi1 for locallang
@@ -38,8 +38,8 @@ class tx_wtgallery_single extends tslib_pibase {
 		$this->piVars = $piVars;
 		$this->cObj = $cObj;
 		$this->pi_loadLL();
-		$this->div = t3lib_div::makeInstance('tx_wtgallery_div'); // Create new instance for div class
-		$this->dynamicMarkers = t3lib_div::makeInstance('tx_wtgallery_dynamicmarkers'); // Create new instance for dynamicmarker function
+		$this->div = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtgallery_div'); // Create new instance for div class
+		$this->dynamicMarkers = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtgallery_dynamicmarkers'); // Create new instance for dynamicmarker function
 		$this->tmpl = $this->markerArray = $this->hash = array(); // init
 		$this->tmpl[$this->mode] = $this->cObj->getSubpart($this->cObj->fileResource($this->conf['template.'][$this->mode]), '###WTGALLERY_'.strtoupper($this->mode).'###'); // Load HTML Template
 		
@@ -61,7 +61,7 @@ class tx_wtgallery_single extends tslib_pibase {
 			'basename' => $this->div->fileInfo($files[0], 'basename'), // like pic.jpg
 			'extension' => $this->div->fileInfo($files[0], 'extension'), // like jpg
 			'currentfolder' => $this->div->fileInfo($files[0], 'currentfolder'), // like folder
-			'listview_link' => tslib_pibase::pi_linkTP_keepPIvars_url(array('show' => ''), 0, 0, $this->conf['list.']['pid_list']) // link to list view
+			'listview_link' => \TYPO3\CMS\Frontend\Plugin\AbstractPlugin::pi_linkTP_keepPIvars_url(array('show' => ''), 0, 0, $this->conf['list.']['pid_list']) // link to list view
 		);
 		$metarow = $this->div->EXIForTXT($row['picture'], $this->conf[$this->mode.'.']['metainformation']); // get metainformation
 		$row = array_merge((array) $row, (array) $metarow); // add array from txt or exif to normal row
@@ -98,12 +98,12 @@ class tx_wtgallery_single extends tslib_pibase {
 		
 			if (array_key_exists(($this->curPicNo + 1), $this->filearray)) { // if next exists in array
 				$this->hash['next'] = $this->filearray[($this->curPicNo + 1)]; // hash of next pic in array
-				$this->wrappedSubpartArray['###NEXT###'][0] = '<a href="'.tslib_pibase::pi_linkTP_keepPIvars_url(array('show' => $this->hash['next']), 1, 0, 0).'">'; // Link with new "show" vars
+				$this->wrappedSubpartArray['###NEXT###'][0] = '<a href="'.$this->pi_linkTP_keepPIvars_url(array('show' => $this->hash['next']), 1, 0, 0).'">'; // Link with new "show" vars
 				$this->wrappedSubpartArray['###NEXT###'][1] = '</a>'; // postfix for linkwrap
 			}
 			if (array_key_exists(($this->curPicNo - 1), $this->filearray)) { // if previous exists in array
 				$this->hash['previous'] = $this->filearray[($this->curPicNo - 1)]; // hash of previous pic in array
-				$this->wrappedSubpartArray['###PREVIOUS###'][0] = '<a href="'.tslib_pibase::pi_linkTP_keepPIvars_url(array('show' => $this->hash['previous']), 1, 0, 0).'">'; // Link with new "show" vars
+				$this->wrappedSubpartArray['###PREVIOUS###'][0] = '<a href="'.$this->pi_linkTP_keepPIvars_url(array('show' => $this->hash['previous']), 1, 0, 0).'">'; // Link with new "show" vars
 				$this->wrappedSubpartArray['###PREVIOUS###'][1] = '</a>'; // postfix for linkwrap
 			}
 		}
@@ -114,7 +114,7 @@ class tx_wtgallery_single extends tslib_pibase {
 	function hook() {
 		if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['single']) {
 		   foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['single'] as $_funcRef) {
-			  if ($_funcRef) t3lib_div::callUserFunction($_funcRef, $this);
+			  if ($_funcRef) \TYPO3\CMS\Core\Utility\GeneralUtility::callUserFunction($_funcRef, $this);
 		   }
 		}
 	}

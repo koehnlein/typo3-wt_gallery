@@ -22,7 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-class tx_wtgallery_dynamicmarkers extends tslib_pibase {
+class tx_wtgallery_dynamicmarkers extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
     var $extKey = 'wt_gallery';
     var $scriptRelPath = 'pi1/class.tx_wtgallery_pi1.php';    // Path to pi1 to get locallang.xml from pi1 folder

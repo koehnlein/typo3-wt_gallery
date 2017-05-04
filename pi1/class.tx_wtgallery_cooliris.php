@@ -22,9 +22,9 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_div.php'); // load div class
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_gallery') . 'lib/class.tx_wtgallery_div.php'); // load div class
 
-class tx_wtgallery_cooliris extends tslib_pibase {
+class tx_wtgallery_cooliris extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	
 	var $prefixId = 'tx_wtgallery_pi1';		// Same as class name
 	var $scriptRelPath = 'pi1/class.tx_wtgallery_single.php';	// Path to any file in pi1 for locallang
@@ -37,7 +37,7 @@ class tx_wtgallery_cooliris extends tslib_pibase {
 		$this->piVars = $piVars;
 		$this->cObj = $cObj;
 		$this->pi_loadLL();
-		$this->div = t3lib_div::makeInstance('tx_wtgallery_div'); // Create new instance for div class
+		$this->div = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtgallery_div'); // Create new instance for div class
 		$fullscreen = $this->conf[$this->mode . '.']['allow_fullscreen'] == 1 ? 'true' : 'false'; // Fullscreen button
 		$scriptaccess = $this->conf[$this->mode . '.']['allow_scriptaccess'] == 1 ? 'always' : 'false'; // Script access button
 		
@@ -53,18 +53,18 @@ class tx_wtgallery_cooliris extends tslib_pibase {
 				'useCacheHash' => 1, 
 				'returnLast' => 'url'
 			);
-			$rssurl = t3lib_div::getIndpEnv('TYPO3_SITE_URL'); // start with the domain
+			$rssurl = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL'); // start with the domain
 			$rssurl .= $this->cObj->typolink('x', $rssurl_linkconf); // generate link
 			
 			// add html code for showing swf
 			$this->content = '
 				<object id=\'coolirisOuter\' classid=\'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\' width=\'' . intval($this->conf[$this->mode . '.']['window_width']) . '\' height=\'' . intval($this->conf[$this->mode . '.']['window_height']) . '\'>
-					<param name=\'movie\' value=\'' . t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $GLOBALS['TSFE']->tmpl->getFileName($this->conf['cooliris.']['swf']) . '\' />
+					<param name=\'movie\' value=\'' . \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $GLOBALS['TSFE']->tmpl->getFileName($this->conf['cooliris.']['swf']) . '\' />
 					<param name=\'flashvars\' value=\'feed=' . $rssurl . '\' />
 					<param name=\'allowFullScreen\' value=\'' . $fullscreen . '\' />
 					<param name=\'allowScriptAccess\' value=\'' . $scriptaccess . '\' />
 					<!--[if !IE]>-->
-						<object id=\'coolirisInner\' type=\'application/x-shockwave-flash\' data=\'' . t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $GLOBALS['TSFE']->tmpl->getFileName($this->conf['cooliris.']['swf']) . '\' width=\'' . intval($this->conf[$this->mode . '.']['window_width']) . '\' height=\'' . intval($this->conf[$this->mode . '.']['window_height']) . '\'>
+						<object id=\'coolirisInner\' type=\'application/x-shockwave-flash\' data=\'' . \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $GLOBALS['TSFE']->tmpl->getFileName($this->conf['cooliris.']['swf']) . '\' width=\'' . intval($this->conf[$this->mode . '.']['window_width']) . '\' height=\'' . intval($this->conf[$this->mode . '.']['window_height']) . '\'>
 							<param name=\'flashvars\' value=\'feed=' . $rssurl . '\' />
 							<param name=\'allowFullScreen\' value=\'' . $fullscreen . '\' />
 							<param name=\'allowScriptAccess\' value=\'' . $scriptaccess . '\' />

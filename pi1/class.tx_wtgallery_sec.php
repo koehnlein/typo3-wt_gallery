@@ -22,7 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-class tx_wtgallery_sec extends tslib_pibase {
+class tx_wtgallery_sec extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 	var $extKey = 'wt_gallery'; // Extension key
 	var $secParams = array('cat' => 'text', 'picid' => 'text', 'thumbid' => 'int', 'delete' => '"all"'); // Allowed piVars

@@ -47,9 +47,9 @@ function user_wtgallery_oncurrentpage() {
 	if ($res) { // If there is a result
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) { // One loop for wt_gallery entry on current page in current lang
 			if ($row['pi_flexform']) { // if there are values in the flexform
-				$flexform_arr = t3lib_div::xml2array($row['pi_flexform']); // change xml to an array
+				$flexform_arr = \TYPO3\CMS\Core\Utility\GeneralUtility::xml2array($row['pi_flexform']); // change xml to an array
 				$mode_str = $flexform_arr['data']['main']['lDEF']['mode']['vDEF']; // get mode of entry
-				$mode = t3lib_div::trimExplode(',', $mode_str, 1); // change mode to an array
+				$mode = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $mode_str, 1); // change mode to an array
 				if (in_array('cooliris', $mode)) $found = 1; // found something
 				$i++; // increase counter
 			}

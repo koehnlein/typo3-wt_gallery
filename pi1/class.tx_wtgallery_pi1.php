@@ -22,13 +22,13 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('wt_gallery') . 'pi1/class.tx_wtgallery_single.php'); // load class for single view
-require_once(t3lib_extMgm::extPath('wt_gallery') . 'pi1/class.tx_wtgallery_list.php'); // load class for list view
-require_once(t3lib_extMgm::extPath('wt_gallery') . 'pi1/class.tx_wtgallery_category.php'); // load class for category view
-require_once(t3lib_extMgm::extPath('wt_gallery') . 'pi1/class.tx_wtgallery_cooliris.php'); // load class for cooliris view
-require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_div.php'); // load div class
-require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_coolirisrss.php'); // load class for cooliris RSS
-if (t3lib_extMgm::isLoaded('wt_doorman', 0)) require_once(t3lib_extMgm::extPath('wt_doorman') . 'class.tx_wtdoorman_security.php'); // load security class
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_gallery') . 'pi1/class.tx_wtgallery_single.php'); // load class for single view
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_gallery') . 'pi1/class.tx_wtgallery_list.php'); // load class for list view
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_gallery') . 'pi1/class.tx_wtgallery_category.php'); // load class for category view
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_gallery') . 'pi1/class.tx_wtgallery_cooliris.php'); // load class for cooliris view
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_gallery') . 'lib/class.tx_wtgallery_div.php'); // load div class
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_gallery') . 'lib/class.tx_wtgallery_coolirisrss.php'); // load class for cooliris RSS
+if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('wt_doorman', 0)) require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_doorman') . 'class.tx_wtdoorman_security.php'); // load security class
 
 /**
  * Plugin 'WT Gallery' for the 'wt_gallery' extension.
@@ -37,7 +37,7 @@ if (t3lib_extMgm::isLoaded('wt_doorman', 0)) require_once(t3lib_extMgm::extPath(
  * @package	TYPO3
  * @subpackage	tx_wtgallery
  */
-class tx_wtgallery_pi1 extends tslib_pibase {
+class tx_wtgallery_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	
 	var $prefixId = 'tx_wtgallery_pi1';		// Same as class name
 	var $scriptRelPath = 'pi1/class.tx_wtgallery_pi1.php';	// Path to this script relative to the extension dir.
@@ -51,18 +51,18 @@ class tx_wtgallery_pi1 extends tslib_pibase {
 		$this->pi_setPiVarDefaults();
 		$this->pi_loadLL();
 		$this->pi_initPIflexForm();
-		$this->div = t3lib_div::makeInstance('tx_wtgallery_div'); // Create new instance for div class
-		$this->single = t3lib_div::makeInstance('tx_wtgallery_single'); // Create new instance for single class
-		$this->list = t3lib_div::makeInstance('tx_wtgallery_list'); // Create new instance for single class
-		$this->category = t3lib_div::makeInstance('tx_wtgallery_category'); // Create new instance for category class
-		$this->cooliris = t3lib_div::makeInstance('tx_wtgallery_cooliris'); // Create new instance for cooliris view
-		$this->coolirisRSS = t3lib_div::makeInstance('tx_wtgallery_coolirisrss'); // Create new instance for cooliris RSS
+		$this->div = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtgallery_div'); // Create new instance for div class
+		$this->single = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtgallery_single'); // Create new instance for single class
+		$this->list = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtgallery_list'); // Create new instance for single class
+		$this->category = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtgallery_category'); // Create new instance for category class
+		$this->cooliris = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtgallery_cooliris'); // Create new instance for cooliris view
+		$this->coolirisRSS = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtgallery_coolirisrss'); // Create new instance for cooliris RSS
 		
 		// config
 		$this->secure(); // Clean piVars
 		$this->config(); // Enable flexform values in config
 		$this->check(); // Fast check if all is ok
-		$mode = t3lib_div::trimExplode(',', $this->conf['main.']['mode'], 1); // split mode
+		$mode = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->conf['main.']['mode'], 1); // split mode
 		
 		// let's go
 		if ($this->conf['main.']['mode'] && $this->conf['main.']['path']) { // only if mode and path are set
@@ -89,7 +89,7 @@ class tx_wtgallery_pi1 extends tslib_pibase {
 			}
 		}
 		
-		if (t3lib_div::_GP('type') == 3135) { // typenum is 3135 (rss feed for cooliris)
+		if (\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('type') == 3135) { // typenum is 3135 (rss feed for cooliris)
 			return $this->coolirisRSS->start($this->conf, $this->piVars, $this->cObj); // RSS Feed
 		}
 		
@@ -116,7 +116,7 @@ class tx_wtgallery_pi1 extends tslib_pibase {
 		if ($this->conf['main.']['path']) { // if picture path exists 
 			if (substr($this->conf['main.']['path'], -1, 1) != '/') $this->conf['main.']['path'] .= '/'; // add slash at the end if this is missing
 			if (substr($this->conf['main.']['path'], 0, 1) == '/') $this->conf['main.']['path'] = substr($this->conf['main.']['path'], 1); // remove first slash if exits
-			if (!t3lib_div::validPathStr($this->conf['main.']['path'])) { // picture path is not valid
+			if (!\TYPO3\CMS\Core\Utility\GeneralUtility::validPathStr($this->conf['main.']['path'])) { // picture path is not valid
 				die ($this->extKey . ': Picture path not valid - please correct it!'); // stop script
 			}
 		}
@@ -130,7 +130,7 @@ class tx_wtgallery_pi1 extends tslib_pibase {
 		// 4. add hook for conf manipulation
 		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['setup'])) { // Adds hook for processing
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['setup'] as $_classRef) {
-				$_procObj = & t3lib_div::getUserObj($_classRef);
+				$_procObj = & \TYPO3\CMS\Core\Utility\GeneralUtility::getUserObj($_classRef);
 				$_procObj->setup($this->conf, $this->piVars, $this); // Enable setup manipulation
 			}
 		}
@@ -144,7 +144,7 @@ class tx_wtgallery_pi1 extends tslib_pibase {
 	// Function secure() uses wt_doorman to clear piVars
 	function secure() {
 		if (class_exists('tx_wtdoorman_security')) { // if doorman class exits
-			$this->sec = t3lib_div::makeInstance('tx_wtdoorman_security'); // Create new instance for security class
+			$this->sec = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtdoorman_security'); // Create new instance for security class
 			$this->sec->secParams = array ( // Allowed piVars type (int, text, alphanum, "value")
 				'show' => 'int', // should be integer
 				//'category' => 'alphanum ++ \/\._@-', // alphanum for folders extended with '/', '.' and '_'
@@ -160,7 +160,7 @@ class tx_wtgallery_pi1 extends tslib_pibase {
 	// Function check() makes a fast check if all is ok
 	function check() {
 		$this->div->init($this->conf); // init function
-		if (t3lib_div::_GP('type') != 3135) {
+		if (\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('type') != 3135) {
 			$this->content .= $this->div->check4errors($this->conf['main.']['path'], 'Picture path not set - set in flexform or in constants'); // check for picture path
 			$this->content .= $this->div->check4errors($this->conf['main.']['mode'], 'Mode not set - set mode in flexform or in constants'); // check for mode
 			$this->content .= $this->div->check4errors($this->piVars['category'], 'No valid picture path', 2, 1); // check for correct path

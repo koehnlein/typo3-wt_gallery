@@ -22,11 +22,11 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_div.php'); // load div class
-require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_dynamicmarkers.php'); // file for dynamicmarker functions
-require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_category_pagebrowser.php'); // file for categorybrowser function
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_gallery') . 'lib/class.tx_wtgallery_div.php'); // load div class
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_gallery') . 'lib/class.tx_wtgallery_dynamicmarkers.php'); // file for dynamicmarker functions
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_gallery') . 'lib/class.tx_wtgallery_category_pagebrowser.php'); // file for categorybrowser function
 
-class tx_wtgallery_category extends tslib_pibase {
+class tx_wtgallery_category extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	
 	var $prefixId = 'tx_wtgallery_pi1';		// Same as class name
 	var $scriptRelPath = 'pi1/class.tx_wtgallery_category.php';	// Path to any file in pi1 for locallang
@@ -39,9 +39,9 @@ class tx_wtgallery_category extends tslib_pibase {
 		$this->piVars = $piVars;
 		$this->cObj = $cObj;
 		$this->pi_loadLL();
-		$this->div = t3lib_div::makeInstance('tx_wtgallery_div'); // Create new instance for div class
-		$this->dynamicMarkers = t3lib_div::makeInstance('tx_wtgallery_dynamicmarkers'); // Create new instance for dynamicmarker function
-		$this->pagebrowser = t3lib_div::makeInstance('tx_wtgallery_category_pagebrowser'); // Create new instance for categorybrowser function
+		$this->div = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtgallery_div'); // Create new instance for div class
+		$this->dynamicMarkers = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtgallery_dynamicmarkers'); // Create new instance for dynamicmarker function
+		$this->pagebrowser = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtgallery_category_pagebrowser'); // Create new instance for categorybrowser function
 		$this->tmpl = $this->markerArray = $this->outerMarkerArray = array(); $content_item = ''; // init
 		$this->tmpl[$this->mode]['all'] = $this->cObj->getSubpart($this->cObj->fileResource($this->conf['template.'][$this->mode]), '###WTGALLERY_CATEGORY###'); // Load HTML Template
 		$this->tmpl[$this->mode]['item'] = $this->cObj->getSubpart($this->tmpl[$this->mode]['all'],'###ITEM###'); // work on subpart 2
@@ -119,7 +119,7 @@ class tx_wtgallery_category extends tslib_pibase {
 	function hook_outer() {
 		if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['category_outer']) {
 		   foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['category_outer'] as $_funcRef) {
-			  if ($_funcRef) t3lib_div::callUserFunction($_funcRef, $this);
+			  if ($_funcRef) \TYPO3\CMS\Core\Utility\GeneralUtility::callUserFunction($_funcRef, $this);
 		   }
 		}
 	}
@@ -129,7 +129,7 @@ class tx_wtgallery_category extends tslib_pibase {
 	function hook_inner() {
 		if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['category_inner']) {
 		   foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['category_inner'] as $_funcRef) {
-			  if ($_funcRef) t3lib_div::callUserFunction($_funcRef, $this);
+			  if ($_funcRef) \TYPO3\CMS\Core\Utility\GeneralUtility::callUserFunction($_funcRef, $this);
 		   }
 		}
 	}

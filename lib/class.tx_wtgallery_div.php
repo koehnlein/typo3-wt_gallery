@@ -22,7 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-class tx_wtgallery_div extends tslib_pibase {
+class tx_wtgallery_div extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	
 	var $prefixId = 'tx_wtgallery_pi1';		// Same as class name
 	var $scriptRelPath = 'pi1/class.tx_wtgallery_pi1.php';	// Path to any file in pi1 for locallang
@@ -33,7 +33,7 @@ class tx_wtgallery_div extends tslib_pibase {
 	
 	// Function getFiles() returns file array ($sort could be: random, ASC, DESC, newest, oldest)
 	function getFiles($conf, $folder, $sort = 'ASC', $limit = '', $hash = 0) {
-		$files = t3lib_div::getFilesInDir($folder, $conf['main.']['file_extensions'], 1, 1); // Get all pictures (sort by name ASC AND with folders)
+		$files = \TYPO3\CMS\Core\Utility\GeneralUtility::getFilesInDir($folder, $conf['main.']['file_extensions'], 1, 1); // Get all pictures (sort by name ASC AND with folders)
 		
 		// 1. sort array
 		switch ($sort) { // sortmode
@@ -106,7 +106,7 @@ class tx_wtgallery_div extends tslib_pibase {
 	// Function sorting4folders() returns sorted folder array ($sort could be: random, ASC, DESC, newest, oldest)
 	function sorting4folders($curpath, $sort = 'ASC', $limit = 0) {
 		// config
-		$folderArray = t3lib_div::get_dirs($curpath); // get all directories in current path
+		$folderArray = \TYPO3\CMS\Core\Utility\GeneralUtility::get_dirs($curpath); // get all directories in current path
 		$sortFileName = '_sorting.txt'; // default filename for sorting file
 		
 		// Let's go
@@ -130,9 +130,9 @@ class tx_wtgallery_div extends tslib_pibase {
 			
 			// 2. Manual sorting (if _sorting.txt exists)
 			if (file_exists($curpath . $sortFileName)) { // if txt file to main folder exists
-				$content = t3lib_div::getURL($curpath . $sortFileName); // read txtfile
+				$content = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($curpath . $sortFileName); // read txtfile
 				$content = str_replace(array(',', ';', '|'), "\n", $content); // rewrite , ; | to linebreaks
-				$contentarray = t3lib_div::trimExplode("\n", $content, 1); // split every line
+				$contentarray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode("\n", $content, 1); // split every line
 				$manArray = array(); // init new tmp array
 				
 				for ($i=0; $i < count($contentarray); $i++) { // one loop for every line in _sorting.txt
@@ -196,7 +196,7 @@ class tx_wtgallery_div extends tslib_pibase {
 						$error = $this->extKey . ' Error: ' . $msg . '!'; // set errormessage
 					}
 				}
-				if ($value != '' && (!t3lib_div::validPathStr($value) || strpos($value, '..') !== false)) { // if $value is not empty AND path is not valid
+				if ($value != '' && (!\TYPO3\CMS\Core\Utility\GeneralUtility::validPathStr($value) || strpos($value, '..') !== false)) { // if $value is not empty AND path is not valid
 					$error = $this->extKey . ' Error: ' . $msg . '!'; // set errormessage
 				}
 				break;
@@ -222,7 +222,7 @@ class tx_wtgallery_div extends tslib_pibase {
 		if ($path) { // if picture path exists 
 			if (substr($path, -1, 1) != '/') $path .= '/'; // add slash at the end if this is missing
 			if (substr($path, 0, 1) == '/') $path = substr($path, 1); // remove first slash if exits
-			if (!t3lib_div::validPathStr($path)) { // picture path is not valid
+			if (!\TYPO3\CMS\Core\Utility\GeneralUtility::validPathStr($path)) { // picture path is not valid
 				die ($this->extKey . ': Picture path not valid - please correct it!'); // stop script
 			}
 			return $path;
@@ -277,7 +277,7 @@ class tx_wtgallery_div extends tslib_pibase {
 		if (!empty($file)) { // only if isset
 			// config
 			$array = $tmp_array = array(); // init array
-			$mode_array = array_reverse(t3lib_div::trimExplode('/', $mode, 1)); // split mode on /
+			$mode_array = array_reverse(\TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('/', $mode, 1)); // split mode on /
 			
 			// let's go
 			for ($i=0; $i<count($mode_array); $i++) { // one loop for every set mode
@@ -300,7 +300,7 @@ class tx_wtgallery_div extends tslib_pibase {
 			// add hook to manipulate TXT/EXIF Information
 			if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['EXIForTXT']) {
 			   foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['EXIForTXT'] as $_funcRef) {
-				  if ($_funcRef) t3lib_div::callUserFunction($_funcRef, $array, $file);
+				  if ($_funcRef) \TYPO3\CMS\Core\Utility\GeneralUtility::callUserFunction($_funcRef, $array, $file);
 			   }
 			}
 			
@@ -339,8 +339,8 @@ class tx_wtgallery_div extends tslib_pibase {
 		
 		// let's go
 		if (file_exists($folder['dirname'] . $postfix)) { // if txt file to folder exists
-			$content = t3lib_div::getURL($folder['dirname'] . $postfix); // read txtfile
-			$contentarray = t3lib_div::trimExplode('|', $content, 1); // split on '|'
+			$content = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($folder['dirname'] . $postfix); // read txtfile
+			$contentarray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('|', $content, 1); // split on '|'
 			for ($i=0; $i<count($contentarray); $i++) { // one loop for every splitted part in array
 				$array['cat_' . $this->infoarray[$i]] = htmlspecialchars($contentarray[$i]); // rewrite array
 			}
@@ -359,8 +359,8 @@ class tx_wtgallery_div extends tslib_pibase {
 		
 		// let's go
 		if (file_exists($file) && file_exists($file.$postfix)) { // if picture exists and txt file to picture exists
-			$content = t3lib_div::getURL($file.$postfix); // read txtfile
-			$contentarray = t3lib_div::trimExplode('|', $content, 1); // split on '|'
+			$content = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($file.$postfix); // read txtfile
+			$contentarray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('|', $content, 1); // split on '|'
 			for ($i=0; $i<count($contentarray); $i++) { // one loop for every splitted part in array
 				$array[$this->infoarray[$i]] = htmlspecialchars($contentarray[$i]); // rewrite array
 			}
@@ -377,7 +377,7 @@ class tx_wtgallery_div extends tslib_pibase {
 		
 		// let's go
 		$folderArray = $newArray = array(); // init empty array
-		$folderArray = t3lib_div::getAllFilesAndFoldersInPath($folderArray, t3lib_div::getFileAbsFileName($startpath), 'wt_gallery', 1); // get all folders of the startpath in an array
+		$folderArray = \TYPO3\CMS\Core\Utility\GeneralUtility::getAllFilesAndFoldersInPath($folderArray, \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($startpath), 'wt_gallery', 1); // get all folders of the startpath in an array
 		$folderArray = array_flip($folderArray); // flip array
 		
 		foreach ((array) $folderArray as $key => $value) { // one loop for every array content
@@ -386,11 +386,11 @@ class tx_wtgallery_div extends tslib_pibase {
 				$key = substr($key, 0, -1); // delete last sign
 			}
 			
-			if (t3lib_div::getIndpEnv('TYPO3_REQUEST_HOST') . '/' != t3lib_div::getIndpEnv('TYPO3_SITE_URL')) { // if request_host is different to site_url (TYPO3 runs in a subfolder)
-				$subfolder = str_replace(t3lib_div::getIndpEnv('TYPO3_REQUEST_HOST') . '/', '', t3lib_div::getIndpEnv('TYPO3_SITE_URL')); // get the folder (like "subfolder/")
+			if (\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST') . '/' != \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL')) { // if request_host is different to site_url (TYPO3 runs in a subfolder)
+				$subfolder = str_replace(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST') . '/', '', \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL')); // get the folder (like "subfolder/")
 			} 
 			
-			$newArray[str_replace(t3lib_div::getIndpEnv('TYPO3_DOCUMENT_ROOT') . '/' . $subfolder, '', $key)] = $this->hashCode(str_replace(t3lib_div::getIndpEnv('TYPO3_DOCUMENT_ROOT') . '/' . $subfolder, '', $key)); // rewrite array like 12345 => fileadmin/pics
+			$newArray[str_replace(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_DOCUMENT_ROOT') . '/' . $subfolder, '', $key)] = $this->hashCode(str_replace(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_DOCUMENT_ROOT') . '/' . $subfolder, '', $key)); // rewrite array like 12345 => fileadmin/pics
 		}
 		
 		if (!empty($newArray)) return $newArray;
@@ -417,7 +417,7 @@ class tx_wtgallery_div extends tslib_pibase {
 	
 	// Function hashCode() returns md5 hash of anything (this is an own function if I want to change it future)
 	function hashCode($string) {
-		if (!empty($string)) return t3lib_div::md5int($string);
+		if (!empty($string)) return \TYPO3\CMS\Core\Utility\GeneralUtility::md5int($string);
 	}
 	
 	
@@ -432,7 +432,7 @@ class tx_wtgallery_div extends tslib_pibase {
 	function getFolderStructure($folder, $level = 1, $limit = 10) {
 		if ($level <= $limit) { // only if limit not reached yet
 			$array = array(); // init new array
-			$folders = t3lib_div::get_dirs($folder); // array with folders
+			$folders = \TYPO3\CMS\Core\Utility\GeneralUtility::get_dirs($folder); // array with folders
 			
 			if (is_array($folders)) { // if there are folders in the array
 				foreach ($folders as $key => $value) { // one loop for every folder

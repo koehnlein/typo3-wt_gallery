@@ -46,7 +46,7 @@ class tx_wtgallery_pi1_wizicon {
 		$LL = $this->includeLocalLang();
 
 		$wizardItems['plugins_tx_wtgallery_pi1'] = array(
-			'icon'=>t3lib_extMgm::extRelPath('wt_gallery').'pi1/ce_wiz.gif',
+			'icon'=>\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('wt_gallery').'pi1/ce_wiz.gif',
 			'title'=>$LANG->getLLL('pi1_title',$LL),
 			'description'=>$LANG->getLLL('pi1_plus_wiz_description',$LL),
 			'params'=>'&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=wt_gallery_pi1'
@@ -61,8 +61,8 @@ class tx_wtgallery_pi1_wizicon {
 	 * @return	The array with language labels
 	 */
 	function includeLocalLang()	{
-		$llFile = t3lib_extMgm::extPath(wt_gallery).'locallang.xml';
-		$LOCAL_LANG = t3lib_div::readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
+		$llFile = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(wt_gallery).'locallang.xml';
+		$LOCAL_LANG = \TYPO3\CMS\Core\Utility\GeneralUtility::readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
 		
 		return $LOCAL_LANG;
 	}

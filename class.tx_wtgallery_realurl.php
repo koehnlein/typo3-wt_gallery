@@ -58,7 +58,7 @@ class tx_wtgallery_realurl {
 		// 1. change category: integer to real name
 		$folderArray = $this->folderChange($this->startpath);
 		foreach ((array) $folderArray as $path => $hash) { // one loop for every folder in the fileadmin
-			$folder_arr = t3lib_div::trimExplode('/', $path, 1); // split path on /
+			$folder_arr = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('/', $path, 1); // split path on /
 			$last_folder = array_pop($folder_arr); // get last path element
 			$urlNew = preg_replace('|\b' . $hash . '\b|', urlencode($last_folder), $params['URL']); // rewrite before url output
 			if ($urlNew != $params['URL']) { // there was a change
@@ -68,10 +68,10 @@ class tx_wtgallery_realurl {
 		}
 		
 		// 2. change show: integer to real name
-		$fileArray = t3lib_div::getFilesInDir($folderPath, 'jpg, jpeg, gif, png', 1, 1); // Get all pictures of current folder
+		$fileArray = \TYPO3\CMS\Core\Utility\GeneralUtility::getFilesInDir($folderPath, 'jpg, jpeg, gif, png', 1, 1); // Get all pictures of current folder
 		foreach ((array) $fileArray as $file) { // one loop for every file in current folder
 			$file_arr = pathinfo($file);
-			$params['URL'] = preg_replace('|\b' . t3lib_div::md5int($file) . '\b|', urlencode($file_arr['filename']), $params['URL']); // rewrite before url output
+			$params['URL'] = preg_replace('|\b' . \TYPO3\CMS\Core\Utility\GeneralUtility::md5int($file) . '\b|', urlencode($file_arr['filename']), $params['URL']); // rewrite before url output
 		}
 	}
 	
@@ -97,7 +97,7 @@ class tx_wtgallery_realurl {
 		// 1. change category: real name to integer
 		$folderArray = $this->folderChange($this->startpath);
 		foreach ((array) $folderArray as $path => $hash) { // one loop for every folder in the fileadmin
-			$folder_arr = t3lib_div::trimExplode('/', $path, 1); // split path on /
+			$folder_arr = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('/', $path, 1); // split path on /
 			$last_folder = array_pop($folder_arr); // get last path element
 			$urlNew = preg_replace('|\b' . preg_quote(urlencode($last_folder)) . '\b|', $hash, $params['URL']); // rewrite before url output
 			if ($urlNew != $params['URL']) { // there was a change
@@ -107,10 +107,10 @@ class tx_wtgallery_realurl {
 		}
 		
 		// 2. change show: real name to integer
-		$fileArray = t3lib_div::getFilesInDir($folderPath, 'jpg, jpeg, gif, png', 1, 1); // Get all pictures of current folder
+		$fileArray = \TYPO3\CMS\Core\Utility\GeneralUtility::getFilesInDir($folderPath, 'jpg, jpeg, gif, png', 1, 1); // Get all pictures of current folder
 		foreach ((array) $fileArray as $file) { // one loop for every file in current folder
 			$file_arr = pathinfo($file);
-			$params['URL'] = preg_replace('|\b' . preg_quote(urlencode($file_arr['filename'])) . '\b|', t3lib_div::md5int($file), $params['URL']); // rewrite before url output
+			$params['URL'] = preg_replace('|\b' . preg_quote(urlencode($file_arr['filename'])) . '\b|', \TYPO3\CMS\Core\Utility\GeneralUtility::md5int($file), $params['URL']); // rewrite before url output
 		}
 	}
 	
@@ -151,7 +151,7 @@ class tx_wtgallery_realurl {
 		
 		// let's go
 		$folderArray = $newArray = array(); // init empty array
-		$folderArray = t3lib_div::getAllFilesAndFoldersInPath($folderArray, t3lib_div::getFileAbsFileName($startpath), 'wt_gallery', 1); // get all folders of the startpath in an array
+		$folderArray = \TYPO3\CMS\Core\Utility\GeneralUtility::getAllFilesAndFoldersInPath($folderArray, \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($startpath), 'wt_gallery', 1); // get all folders of the startpath in an array
 		$folderArray = array_flip($folderArray); // flip array
 		
 		foreach ((array) $folderArray as $key => $value) { // one loop for every array content
@@ -160,11 +160,11 @@ class tx_wtgallery_realurl {
 				$key = substr($key, 0, -1); // delete last sign
 			}
 			
-			if (t3lib_div::getIndpEnv('TYPO3_REQUEST_HOST') . '/' != t3lib_div::getIndpEnv('TYPO3_SITE_URL')) { // if request_host is different to site_url (TYPO3 runs in a subfolder)
-				$subfolder = str_replace(t3lib_div::getIndpEnv('TYPO3_REQUEST_HOST') . '/', '', t3lib_div::getIndpEnv('TYPO3_SITE_URL')); // get the folder (like "subfolder/")
+			if (\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST') . '/' != \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL')) { // if request_host is different to site_url (TYPO3 runs in a subfolder)
+				$subfolder = str_replace(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST') . '/', '', \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL')); // get the folder (like "subfolder/")
 			} 
 			
-			$newArray[str_replace(t3lib_div::getIndpEnv('TYPO3_DOCUMENT_ROOT') . '/' . $subfolder, '', $key)] = t3lib_div::md5int(str_replace(t3lib_div::getIndpEnv('TYPO3_DOCUMENT_ROOT') . '/' . $subfolder, '', $key)); // rewrite array like 12345 => fileadmin/pics
+			$newArray[str_replace(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_DOCUMENT_ROOT') . '/' . $subfolder, '', $key)] = \TYPO3\CMS\Core\Utility\GeneralUtility::md5int(str_replace(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_DOCUMENT_ROOT') . '/' . $subfolder, '', $key)); // rewrite array like 12345 => fileadmin/pics
 		}
 		
 		if (!empty($newArray)) return $newArray;
@@ -179,7 +179,7 @@ class tx_wtgallery_realurl {
 	 */
 	public function getGETparam($param = 'category') {
 		$curURL = $_SERVER['QUERY_STRING'];
-		$urlParts = t3lib_div::trimExplode('&', $curURL, 1);
+		$urlParts = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('&', $curURL, 1);
 		foreach ((array) $urlParts as $part) {
 			if (stristr($part, '[' . $param . ']')) {
 				$value = str_replace(array('tx_wtgallery_pi1[' . $param . ']='), '', $part);

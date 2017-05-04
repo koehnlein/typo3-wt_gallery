@@ -27,10 +27,10 @@ $imlightbox = '
 				/*]]>*/
 			</script>
 		
-		<link rel="stylesheet" href="'.t3lib_extMgm::siteRelPath('kj_imagelightbox2').'lightbox/css/lightbox.css" type="text/css" media="screen" />
-		<script type="text/javascript" src="'.t3lib_extMgm::siteRelPath('kj_imagelightbox2').'lightbox/js/prototype.js"></script>
-		<script type="text/javascript" src="'.t3lib_extMgm::siteRelPath('kj_imagelightbox2').'lightbox/js/scriptaculous.js?load=effects"></script>
-		<script type="text/javascript" src="'.t3lib_extMgm::siteRelPath('kj_imagelightbox2').'lightbox/js/lightbox.js"></script>
+		<link rel="stylesheet" href="'.\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('kj_imagelightbox2').'lightbox/css/lightbox.css" type="text/css" media="screen" />
+		<script type="text/javascript" src="'.\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('kj_imagelightbox2').'lightbox/js/prototype.js"></script>
+		<script type="text/javascript" src="'.\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('kj_imagelightbox2').'lightbox/js/scriptaculous.js?load=effects"></script>
+		<script type="text/javascript" src="'.\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('kj_imagelightbox2').'lightbox/js/lightbox.js"></script>
 	<!-- imagelightbox code for wt_gallery end -->
 ';
 /*		

@@ -22,11 +22,11 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_div.php'); // load div class
-require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_dynamicmarkers.php'); // file for dynamicmarker functions
-require_once(t3lib_extMgm::extPath('wt_gallery') . 'lib/class.tx_wtgallery_list_pagebrowser.php'); // file for dynamicmarker functions
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_gallery') . 'lib/class.tx_wtgallery_div.php'); // load div class
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_gallery') . 'lib/class.tx_wtgallery_dynamicmarkers.php'); // file for dynamicmarker functions
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('wt_gallery') . 'lib/class.tx_wtgallery_list_pagebrowser.php'); // file for dynamicmarker functions
 
-class tx_wtgallery_list extends tslib_pibase {
+class tx_wtgallery_list extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	
 	var $prefixId = 'tx_wtgallery_pi1';		// Same as class name
 	var $scriptRelPath = 'pi1/class.tx_wtgallery_list.php';	// Path to any file in pi1 for locallang
@@ -39,9 +39,9 @@ class tx_wtgallery_list extends tslib_pibase {
 		$this->piVars = $piVars;
 		$this->cObj = $cObj;
 		$this->pi_loadLL();
-		$this->div = t3lib_div::makeInstance('tx_wtgallery_div'); // Create new instance for div class
-		$this->dynamicMarkers = t3lib_div::makeInstance('tx_wtgallery_dynamicmarkers'); // Create new instance for dynamicmarker function
-		$this->pagebrowser = t3lib_div::makeInstance('tx_wtgallery_list_pagebrowser'); // Create new instance for pagebrowser function
+		$this->div = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtgallery_div'); // Create new instance for div class
+		$this->dynamicMarkers = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtgallery_dynamicmarkers'); // Create new instance for dynamicmarker function
+		$this->pagebrowser = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_wtgallery_list_pagebrowser'); // Create new instance for pagebrowser function
 		$this->tmpl = $this->markerArray = $this->outerMarkerArray = $subpartArray = array(); $content_item = ''; // init
 		$this->tmpl[$this->mode]['all'] = $this->cObj->getSubpart($this->cObj->fileResource($this->conf['template.'][$this->mode]), '###WTGALLERY_LIST###'); // Load HTML Template
 		$this->tmpl[$this->mode]['item'] = $this->cObj->getSubpart($this->tmpl[$this->mode]['all'],'###ITEM###'); // work on subpart 2
@@ -66,7 +66,7 @@ class tx_wtgallery_list extends tslib_pibase {
 					'currentfolder' => $this->div->fileInfo($pictures_current[$pointer][$i], 'currentfolder'), // like folder
 					'picturehash' => $this->div->hashCode($pictures_current[$pointer][$i]), // like 12345678
 					'pid_single' => ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : $GLOBALS['TSFE']->id), // PID of single view
-					'link_single' => tslib_pibase::pi_linkTP_keepPIvars_url(array('show' => $this->div->hashCode($pictures_current[$pointer][$i])), 1, 0, ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : 0)) // link to single view
+					'link_single' => \TYPO3\CMS\Frontend\Plugin\AbstractPlugin::pi_linkTP_keepPIvars_url(array('show' => $this->div->hashCode($pictures_current[$pointer][$i])), 1, 0, ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : 0)) // link to single view
 				);
 				$metarow = $this->div->EXIForTXT($row['picture'], $this->conf[$this->mode . '.']['metainformation']); // get metainformation
 				$row = array_merge((array) $row, (array) $metarow); // add array from txt or exif to normal row
@@ -87,7 +87,7 @@ class tx_wtgallery_list extends tslib_pibase {
 					$this->markerArray['###' . strtoupper($key) . '###'] = $value; // fill marker with value of row
 				}
 				
-				$this->wrappedSubpartArray['###SINGLELINK###'][0] = '<a href="' . tslib_pibase::pi_linkTP_keepPIvars_url(array('show' => $this->div->hashCode($row['picture'])), 1, 0, ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : 0)) . '">'; // Link with piVars "show"
+				$this->wrappedSubpartArray['###SINGLELINK###'][0] = '<a href="' . \TYPO3\CMS\Frontend\Plugin\AbstractPlugin::pi_linkTP_keepPIvars_url(array('show' => $this->div->hashCode($row['picture'])), 1, 0, ($this->conf['single.']['pid_single'] > 0 ? $this->conf['single.']['pid_single'] : 0)) . '">'; // Link with piVars "show"
 				$this->wrappedSubpartArray['###SINGLELINK###'][1] = '</a>'; // postfix for linkwrap
 				
 				$this->hook_inner(); // add hook
@@ -112,7 +112,7 @@ class tx_wtgallery_list extends tslib_pibase {
 	function hook_outer() {
 		if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['list_outer']) {
 		   foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['list_outer'] as $_funcRef) {
-			  if ($_funcRef) t3lib_div::callUserFunction($_funcRef, $this);
+			  if ($_funcRef) \TYPO3\CMS\Core\Utility\GeneralUtility::callUserFunction($_funcRef, $this);
 		   }
 		}
 	}
@@ -122,7 +122,7 @@ class tx_wtgallery_list extends tslib_pibase {
 	function hook_inner() {
 		if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['list_inner']) {
 		   foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['list_inner'] as $_funcRef) {
-			  if ($_funcRef) t3lib_div::callUserFunction($_funcRef, $this);
+			  if ($_funcRef) \TYPO3\CMS\Core\Utility\GeneralUtility::callUserFunction($_funcRef, $this);
 		   }
 		}
 	}
