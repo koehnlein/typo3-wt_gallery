@@ -3,8 +3,6 @@ if (!defined ('TYPO3_MODE')) die ('Access denied.');
 $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['wt_gallery']); // Get backandconfig
 t3lib_extMgm::addStaticFile($_EXTKEY, 'files/static/', 'Add default CSS');
 
-t3lib_div::loadTCA('tt_content');
-
 $TCA['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY.'_pi1'] = 'layout,select_key,pages';
 $TCA['tt_content']['types']['list']['subtypes_addlist'][$_EXTKEY.'_pi1'] = 'pi_flexform';
 
